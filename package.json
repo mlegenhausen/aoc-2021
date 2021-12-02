@@ -6,6 +6,7 @@
   "packageManager": "yarn@3.1.1",
   "scripts": {
     "day1": "ts-node src/day1.ts",
+    "day2": "ts-node src/day2.ts",
     "lint": "eslint ."
   },
   "dependencies": {

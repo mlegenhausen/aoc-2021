@@ -1,15 +1,12 @@
-import { promises as fs } from 'fs'
 import path from 'path'
-import { C, E, flow, M, n, pipe, RA, s, TE, tt } from './prelude'
-
-const readFile = (filename: string) => TE.tryCatch(() => fs.readFile(filename, 'utf8'), E.toError)
+import { E, flow, M, n, pipe, RA, TE, tt } from './prelude'
+import { main, readLines } from './util'
 
 const program = pipe(
   path.join(__dirname, 'day1.txt'),
-  readFile,
+  readLines,
   TE.chainEitherK(
     flow(
-      s.split('\n'),
       tt.nonEmptyArray(tt.NumberFromString).decode,
       E.mapLeft(() => new Error('DecodeError'))
     )
@@ -28,16 +25,7 @@ const program = pipe(
       ),
       M.concatAll(n.MonoidSum)
     )
-  ),
-  TE.chainFirstIOK(C.log)
-)
-
-program().then(
-  E.fold(
-    err => {
-      console.error(err)
-      process.exit(1)
-    },
-    () => process.exit(0)
   )
 )
+
+main(program)
